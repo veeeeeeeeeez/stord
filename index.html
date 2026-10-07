@@ -169,23 +169,48 @@
   .hero__stage { position: relative; flex: 1; min-height: 0; display: flex; align-items: flex-end; overflow: hidden; isolation: isolate; }
   .hero__band { background: var(--paper); flex: none; }
   .hero .panel__content { padding-bottom: clamp(44px, 8vh, 96px); }
-  .grainfield--hero {
+  .hero__bg.grainfield--hero {
     background:
       radial-gradient(90% 110% at 85% -10%, rgba(120, 146, 240, 0.55) 0%, transparent 55%),
       radial-gradient(120% 90% at 10% 115%, rgba(10, 11, 16, 0.9) 0%, rgba(10, 11, 16, 0.3) 45%, transparent 70%),
       linear-gradient(162deg, #3b5ce0 0%, var(--blue) 32%, #1d2f8f 62%, #0f1322 100%);
   }
-  .hero__meta {
-    display: flex; flex-wrap: wrap; gap: clamp(20px, 4vw, 56px);
-    margin-top: clamp(16px, 3vh, 30px);
-    padding-top: 20px;
-    border-top: 1px solid color-mix(in srgb, var(--white) 18%, transparent);
+  .hero__bg { position: absolute; inset: 0; z-index: -2; opacity: 0; transition: opacity 1.4s ease; }
+  .hero__bg.on { opacity: 1; }
+  .hero__bg.grainfield--ink {
+    background:
+      radial-gradient(100% 120% at 80% -15%, rgba(62, 92, 214, 0.5) 0%, transparent 52%),
+      linear-gradient(165deg, #22347e 0%, #18245f 40%, #0f1322 100%);
   }
-  .hero__meta div b {
-    display: block; font-family: "Inter Tight", Inter, sans-serif;
-    font-size: clamp(20px, 2.2vw, 30px); font-weight: 700; letter-spacing: -0.02em; color: var(--white);
+  .hero__bg.grainfield--char {
+    background:
+      radial-gradient(90% 110% at 88% -8%, rgba(74, 100, 210, 0.32) 0%, transparent 50%),
+      linear-gradient(162deg, #3a352e 0%, var(--char) 34%, #16140f 70%, #0e0e12 100%);
   }
-  .hero__meta div span { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--stone); }
+  .hero__tags { display: grid; max-width: 22ch; }
+  .hero__tag {
+    grid-area: 1 / 1;
+    font-family: "Inter Tight", Inter, sans-serif;
+    font-weight: 600; letter-spacing: -0.025em; line-height: 1.1;
+    font-size: clamp(30px, 3.8vw, 58px);
+    color: var(--white); text-wrap: balance;
+    opacity: 0; transform: translateY(14px);
+    transition: opacity 0.9s cubic-bezier(.2,.6,.2,1), transform 0.9s cubic-bezier(.2,.6,.2,1);
+  }
+  .hero__tag.on { opacity: 1; transform: none; }
+  .btn-hero {
+    display: inline-flex; align-items: center; gap: 11px; width: fit-content;
+    background: var(--white); color: var(--ink);
+    font-family: "Inter Tight", Inter, sans-serif;
+    font-size: 16px; font-weight: 700; letter-spacing: -0.01em;
+    padding: 14px 30px; border-radius: 999px;
+    margin-top: clamp(14px, 2.5vh, 26px);
+    transition: transform 0.2s cubic-bezier(.2,.6,.2,1), box-shadow 0.2s;
+    box-shadow: 0 12px 36px rgba(8, 10, 26, 0.3);
+  }
+  .btn-hero:hover { transform: translateY(-2px); box-shadow: 0 18px 44px rgba(8, 10, 26, 0.4); }
+  .btn-hero svg { transition: transform 0.2s; }
+  .btn-hero:hover svg { transform: translateX(3px); }
   .scrollcue {
     position: absolute; right: var(--pad); bottom: clamp(44px, 8vh, 96px);
     display: flex; flex-direction: column; align-items: center; gap: 10px;
@@ -467,16 +492,18 @@
 <!-- ======================= HERO ======================= -->
 <section class="panel hero" id="top">
   <div class="hero__stage">
-    <div class="grainfield grainfield--hero"></div>
+    <div class="hero__bg grainfield grainfield--hero on"></div>
+    <div class="hero__bg grainfield grainfield--ink"></div>
+    <div class="hero__bg grainfield grainfield--char"></div>
     <div class="panel__content">
-      <p class="kicker reveal"><em>Cloud Supply Chain</em></p>
-      <h1 class="display reveal">Power your entire consumer&nbsp;experience</h1>
-      <p class="sub reveal">From pre-purchase to post-delivery — rapid fulfillment, native AI, and end-to-end software on one network.</p>
-      <div class="hero__meta reveal">
-        <div><b>$10B+</b><span>Commerce powered / yr</span></div>
-        <div><b>99.9%</b><span>Order accuracy</span></div>
-        <div><b>2-day</b><span>Delivery, nationwide</span></div>
+      <div class="hero__tags">
+        <h1 class="hero__tag on">Power your entire consumer experience.</h1>
+        <p class="hero__tag">Commerce that ships itself.</p>
+        <p class="hero__tag">Your brand, delivered.</p>
       </div>
+      <a class="btn-hero" href="#">Get Started
+        <svg width="17" height="13" viewBox="0 0 17 13" fill="none"><path d="M1 6.5h14M11 1.5l4.5 5-4.5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
     </div>
     <div class="scrollcue">Scroll</div>
   </div>
@@ -680,6 +707,20 @@
     { threshold: 0.25 }
   );
   document.querySelectorAll(".panel, .proof").forEach((el) => io.observe(el));
+
+  // Hero: rotate background + tagline together every 5s
+  const heroBgs = [...document.querySelectorAll(".hero__bg")];
+  const heroTags = [...document.querySelectorAll(".hero__tag")];
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches && heroBgs.length > 1) {
+    let hi = 0;
+    setInterval(() => {
+      heroBgs[hi].classList.remove("on");
+      heroTags[hi].classList.remove("on");
+      hi = (hi + 1) % heroBgs.length;
+      heroBgs[hi].classList.add("on");
+      heroTags[hi].classList.add("on");
+    }, 5000);
+  }
 
   // Duplicate marquee content for a seamless loop
   const track = document.getElementById("marqueeTrack");
