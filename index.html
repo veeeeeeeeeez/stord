@@ -165,8 +165,16 @@
   .is-visible .reveal { opacity: 1; transform: none; }
 
   /* ============ HERO ============ */
-  .hero { min-height: 100svh; padding-top: var(--header-h); }
+  .hero { min-height: 100svh; padding-top: var(--header-h); flex-direction: column; align-items: stretch; }
+  .hero__stage { position: relative; flex: 1; min-height: 0; display: flex; align-items: flex-end; overflow: hidden; isolation: isolate; }
+  .hero__band { background: var(--paper); flex: none; }
   .hero .panel__content { padding-bottom: clamp(44px, 8vh, 96px); }
+  .grainfield--hero {
+    background:
+      radial-gradient(90% 110% at 85% -10%, rgba(120, 146, 240, 0.55) 0%, transparent 55%),
+      radial-gradient(120% 90% at 10% 115%, rgba(10, 11, 16, 0.9) 0%, rgba(10, 11, 16, 0.3) 45%, transparent 70%),
+      linear-gradient(162deg, #3b5ce0 0%, var(--blue) 32%, #1d2f8f 62%, #0f1322 100%);
+  }
   .hero__meta {
     display: flex; flex-wrap: wrap; gap: clamp(20px, 4vw, 56px);
     margin-top: clamp(16px, 3vh, 30px);
@@ -458,19 +466,34 @@
 
 <!-- ======================= HERO ======================= -->
 <section class="panel hero" id="top">
-  <div class="panel__media" style="background-image:url('https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=2400&q=80&fm=jpg')"></div>
-  <div class="panel__scrim"></div>
-  <div class="panel__content">
-    <p class="kicker reveal"><em>Cloud Supply Chain</em></p>
-    <h1 class="display reveal">Power your entire consumer&nbsp;experience</h1>
-    <p class="sub reveal">From pre-purchase to post-delivery — rapid fulfillment, native AI, and end-to-end software on one network.</p>
-    <div class="hero__meta reveal">
-      <div><b>$10B+</b><span>Commerce powered / yr</span></div>
-      <div><b>99.9%</b><span>Order accuracy</span></div>
-      <div><b>2-day</b><span>Delivery, nationwide</span></div>
+  <div class="hero__stage">
+    <div class="grainfield grainfield--hero"></div>
+    <div class="panel__content">
+      <p class="kicker reveal"><em>Cloud Supply Chain</em></p>
+      <h1 class="display reveal">Power your entire consumer&nbsp;experience</h1>
+      <p class="sub reveal">From pre-purchase to post-delivery — rapid fulfillment, native AI, and end-to-end software on one network.</p>
+      <div class="hero__meta reveal">
+        <div><b>$10B+</b><span>Commerce powered / yr</span></div>
+        <div><b>99.9%</b><span>Order accuracy</span></div>
+        <div><b>2-day</b><span>Delivery, nationwide</span></div>
+      </div>
+    </div>
+    <div class="scrollcue">Scroll</div>
+  </div>
+  <div class="hero__band">
+    <div class="marquee" aria-label="Customer logos">
+      <div class="marquee__track" id="marqueeTrack">
+        <span class="lw-tight">Peak Design</span>
+        <span class="lw-round">goodr</span>
+        <span class="lw-caps">Native</span>
+        <span class="lw-serif">Seed Health</span>
+        <span class="lw-caps">Legion Athletics</span>
+        <span class="lw-thin">Earth Breeze</span>
+        <span class="lw-serif">Fly by Jing</span>
+        <span class="lw-mono">THE ZERO PROOF</span>
+      </div>
     </div>
   </div>
-  <div class="scrollcue">Scroll</div>
 </section>
 
 <!-- ======================= MEDIA 01 — FULFILLMENT ======================= -->
@@ -545,19 +568,6 @@
     <div>
       <p class="kicker">Trusted by leading brands</p>
       <h2 class="proof__title">The brands behind the boxes</h2>
-    </div>
-  </div>
-
-  <div class="marquee" aria-label="Customer logos">
-    <div class="marquee__track" id="marqueeTrack">
-      <span class="lw-tight">Peak Design</span>
-      <span class="lw-round">goodr</span>
-      <span class="lw-caps">Native</span>
-      <span class="lw-serif">Seed Health</span>
-      <span class="lw-caps">Legion Athletics</span>
-      <span class="lw-thin">Earth Breeze</span>
-      <span class="lw-serif">Fly by Jing</span>
-      <span class="lw-mono">THE ZERO PROOF</span>
     </div>
   </div>
 
