@@ -169,25 +169,21 @@
   .hero__stage { position: relative; flex: 1; min-height: 0; display: flex; align-items: flex-end; overflow: hidden; isolation: isolate; }
   .hero__band { background: var(--paper); flex: none; }
   .hero .panel__content { padding-bottom: clamp(44px, 8vh, 96px); }
-  .hero__bg.grainfield--hero {
-    background:
-      radial-gradient(90% 110% at 85% -10%, rgba(120, 146, 240, 0.55) 0%, transparent 55%),
-      radial-gradient(120% 90% at 10% 115%, rgba(10, 11, 16, 0.9) 0%, rgba(10, 11, 16, 0.3) 45%, transparent 70%),
-      linear-gradient(162deg, #3b5ce0 0%, var(--blue) 32%, #1d2f8f 62%, #0f1322 100%);
+  .hero__bg {
+    position: absolute; inset: 0; z-index: -2; opacity: 0; transition: opacity 1.4s ease;
+    background-size: cover; background-position: center;
+    filter: saturate(0.55) contrast(1.06) brightness(0.82);
   }
-  .hero__bg { position: absolute; inset: 0; z-index: -2; opacity: 0; transition: opacity 1.4s ease; }
   .hero__bg.on { opacity: 1; }
-  .hero__bg.grainfield--ink {
+  .hero__scrim {
+    position: absolute; inset: 0; z-index: -1;
     background:
-      radial-gradient(100% 120% at 80% -15%, rgba(62, 92, 214, 0.5) 0%, transparent 52%),
-      linear-gradient(165deg, #22347e 0%, #18245f 40%, #0f1322 100%);
+      radial-gradient(70% 55% at 50% 58%, rgba(14,14,18,0.42) 0%, transparent 75%),
+      linear-gradient(to top, rgba(14,14,18,0.7) 0%, rgba(14,14,18,0.28) 40%, rgba(14,14,18,0.38) 100%);
   }
-  .hero__bg.grainfield--char {
-    background:
-      radial-gradient(90% 110% at 88% -8%, rgba(74, 100, 210, 0.32) 0%, transparent 50%),
-      linear-gradient(162deg, #3a352e 0%, var(--char) 34%, #16140f 70%, #0e0e12 100%);
-  }
-  .hero__tags { display: grid; max-width: 22ch; }
+  .hero__stage { align-items: center; }
+  .hero .panel__content { justify-items: center; text-align: center; padding-bottom: var(--pad); }
+  .hero__tags { display: grid; justify-items: center; max-width: 24ch; margin: 0 auto; }
   .hero__tag {
     grid-area: 1 / 1;
     font-family: "Inter Tight", Inter, sans-serif;
@@ -492,9 +488,10 @@
 <!-- ======================= HERO ======================= -->
 <section class="panel hero" id="top">
   <div class="hero__stage">
-    <div class="hero__bg grainfield grainfield--hero on"></div>
-    <div class="hero__bg grainfield grainfield--ink"></div>
-    <div class="hero__bg grainfield grainfield--char"></div>
+    <div class="hero__bg on" style="background-image:url('https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=2400&q=80&fm=jpg')"></div>
+    <div class="hero__bg" style="background-image:url('https://images.unsplash.com/photo-1553413077-190dd305871c?w=2400&q=80&fm=jpg')"></div>
+    <div class="hero__bg" style="background-image:url('https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=2400&q=80&fm=jpg')"></div>
+    <div class="hero__scrim"></div>
     <div class="panel__content">
       <div class="hero__tags">
         <h1 class="hero__tag on">Power your entire consumer experience.</h1>
