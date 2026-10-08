@@ -281,7 +281,14 @@
 
   /* ============ DESIGN OPTION SWITCHER ============ */
   .optswitch {
-    position: absolute; top: 16px; left: 50%; transform: translateX(-50%); z-index: 4;
+    position: absolute; top: 14px; left: 50%; transform: translateX(-50%); z-index: 4;
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+  }
+  .optswitch__label {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.85); text-shadow: 0 1px 6px rgba(14, 14, 18, 0.5);
+  }
+  .optswitch__group {
     display: flex; gap: 2px; padding: 3px; border-radius: 999px;
     background: rgba(14, 14, 18, 0.32);
     backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
@@ -608,9 +615,12 @@
     </div>
     <div class="film"></div>
     <div class="hero__glare"></div>
-    <div class="optswitch" role="group" aria-label="Design option">
-      <button type="button" data-opt="1" aria-label="Design option 1">1</button>
-      <button type="button" data-opt="2" aria-label="Design option 2">2</button>
+    <div class="optswitch">
+      <span class="optswitch__label" id="optswitch-label">Option</span>
+      <div class="optswitch__group" role="group" aria-labelledby="optswitch-label">
+        <button type="button" data-opt="1" aria-label="Design option 1">1</button>
+        <button type="button" data-opt="2" aria-label="Design option 2">2</button>
+      </div>
     </div>
   </div>
 </section>
