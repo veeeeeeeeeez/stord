@@ -210,10 +210,11 @@
     filter: grayscale(1) contrast(1.1);
   }
   .hero__bg.on { opacity: 1; }
-  .hero__tagwrap { flex: 1; display: flex; align-items: center; }
+  .hero__copy { flex: 1; display: flex; flex-direction: column; justify-content: flex-start; padding-top: clamp(24px, 8vh, 96px); gap: clamp(24px, 3.5vh, 36px); }
   .hero__tags { display: grid; justify-items: start; max-width: 14ch; }
+  /* Taglines share one grid cell and sit on its bottom edge, so the form always hugs the last line */
   .hero__tag {
-    grid-area: 1 / 1;
+    grid-area: 1 / 1; align-self: end;
     font-family: "Inter Tight", Inter, sans-serif;
     font-weight: 600; letter-spacing: -0.025em; line-height: 1.08;
     font-size: clamp(36px, 4vw, 68px);
@@ -229,19 +230,41 @@
     .hero__right { position: relative; inset: auto; min-height: 38svh; flex: none; }
     .hero__tint, .hero__glare { display: none; }
   }
-  .btn-hero {
-    display: inline-flex; align-items: center; gap: 11px; width: fit-content;
-    background: var(--white); color: var(--ink);
-    font-family: "Inter Tight", Inter, sans-serif;
-    font-size: 16px; font-weight: 700; letter-spacing: -0.01em;
-    padding: 14px 30px; border-radius: 999px;
-    margin-top: clamp(14px, 2.5vh, 26px);
-    transition: transform 0.2s cubic-bezier(.2,.6,.2,1), box-shadow 0.2s;
+  .hero__left { container-type: inline-size; }
+  .hero__form {
+    display: flex; align-items: center; gap: 6px;
+    width: 100%; max-width: 460px;
+    padding: 6px; border-radius: 999px;
+    background: var(--white);
     box-shadow: 0 12px 36px rgba(8, 10, 26, 0.3);
+    transition: box-shadow 0.2s;
   }
-  .btn-hero:hover { transform: translateY(-2px); box-shadow: 0 18px 44px rgba(8, 10, 26, 0.4); }
-  .btn-hero svg { transition: transform 0.2s; }
-  .btn-hero:hover svg { transform: translateX(3px); }
+  .hero__form:focus-within { box-shadow: 0 0 0 4px color-mix(in srgb, var(--white) 30%, transparent), 0 12px 36px rgba(8, 10, 26, 0.3); }
+  .hero__form input {
+    flex: 1; min-width: 0; height: 48px;
+    padding: 0 8px 0 18px;
+    border: 0; outline: 0; background: transparent;
+    font: 500 16px Inter, sans-serif; color: var(--ink);
+  }
+  .hero__form input::placeholder { color: var(--gray); }
+  .hero__form button {
+    flex: none; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    height: 48px; padding: 0 24px; border-radius: 999px;
+    background: var(--ink); color: var(--white);
+    font-family: "Inter Tight", Inter, sans-serif;
+    font-size: 15px; font-weight: 700; letter-spacing: -0.01em;
+    transition: background 0.2s;
+  }
+  .hero__form button:hover { background: var(--blue-deep); }
+  .hero__form button svg { transition: transform 0.2s; }
+  .hero__form button:hover svg { transform: translateX(3px); }
+  @container (max-width: 400px) {
+    .hero__form { flex-direction: column; align-items: stretch; gap: 10px; padding: 0; background: none; box-shadow: none; border-radius: 0; }
+    .hero__form:focus-within { box-shadow: none; }
+    .hero__form input { flex: none; height: 52px; border-radius: 999px; background: var(--white); }
+    .hero__form button { height: 52px; }
+  }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
   /* ============ FILM GRAIN (black-and-white photos) ============ */
   .film {
@@ -528,16 +551,20 @@
   <div class="hero__stage">
     <div class="hero__left">
       <div class="grainfield"></div>
-      <div class="hero__tagwrap">
+      <div class="hero__copy">
         <div class="hero__tags">
           <h1 class="hero__tag on">Power your entire consumer experience.</h1>
           <p class="hero__tag">Commerce that ships itself.</p>
           <p class="hero__tag">Your brand, delivered.</p>
         </div>
+        <form class="hero__form" onsubmit="return false">
+          <label class="sr-only" for="hero-email">Work email</label>
+          <input id="hero-email" type="email" name="email" placeholder="What is your work email?" autocomplete="email" />
+          <button type="submit">Get Started
+            <svg width="17" height="13" viewBox="0 0 17 13" fill="none"><path d="M1 6.5h14M11 1.5l4.5 5-4.5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </form>
       </div>
-      <a class="btn-hero" href="#">Get Started
-        <svg width="17" height="13" viewBox="0 0 17 13" fill="none"><path d="M1 6.5h14M11 1.5l4.5 5-4.5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
     </div>
     <div class="hero__right">
       <div class="hero__bg on" style="background-image:url('https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=2400&q=80&fm=jpg')"></div>
