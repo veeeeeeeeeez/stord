@@ -309,9 +309,15 @@
   [data-option="2"] .hero { background: var(--paper); }
   [data-option="2"] .hdr { border-bottom-color: transparent; }
   [data-option="2"] .hero__stage {
-    margin: 0 clamp(14px, 1.5vw, 24px) clamp(14px, 1.5vw, 24px);
+    margin: 0 clamp(14px, 1.5vw, 24px);
     border-radius: 20px;
   }
+  /* ...and the logo strip sits below the box: black on paper, full page width */
+  [data-option="2"] .hero__left { padding-bottom: var(--pad); }
+  [data-option="2"] .hero__logos { position: static; flex: none; padding-top: 0; background: none; }
+  [data-option="2"] .marquee { border-top: 0; padding: clamp(20px, 2.4vw, 32px) 0; }
+  [data-option="2"] .marquee__track img { filter: brightness(0); opacity: 0.72; }
+  [data-option="2"] .marquee__track img:hover { opacity: 1; }
 
   /* ============ FILM GRAIN (black-and-white photos) ============ */
   .film {
@@ -813,8 +819,14 @@
 <script>
   // Design option switcher (?option=N)
   const optButtons = [...document.querySelectorAll(".optswitch button")];
+  const heroStage = document.querySelector(".hero__stage");
+  const heroLogos = document.querySelector(".hero__logos");
+  const heroFilm = heroStage.querySelector(".film");
   const setOption = (n) => {
     document.documentElement.dataset.option = n;
+    // Option 2 shows the logos below the hero box instead of inside it
+    if (n === "2") heroStage.after(heroLogos);
+    else heroStage.insertBefore(heroLogos, heroFilm);
     optButtons.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.opt === n)));
     const url = new URL(location.href);
     url.searchParams.set("option", n);
