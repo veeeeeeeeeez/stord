@@ -92,9 +92,21 @@
     white-space: nowrap;
   }
   .btn-pill:hover { background: var(--blue-deep); transform: translateY(-1px); }
+  .btn-track {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 13px; font-weight: 600; color: var(--ink);
+    padding: 7px 15px 7px 12px; border-radius: 999px; margin-right: 2px;
+    background: var(--white);
+    border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
+    box-shadow: 0 1px 2px rgba(14, 14, 18, 0.06);
+    transition: border-color 0.15s, box-shadow 0.15s;
+    white-space: nowrap;
+  }
+  .btn-track svg { color: var(--blue); flex: none; }
+  .btn-track:hover { border-color: var(--blue); box-shadow: 0 0 0 3px color-mix(in srgb, var(--blue) 14%, transparent); }
 
   @media (max-width: 1120px) { .nav { display: none; } }
-  @media (max-width: 680px) { .hdr__right a:not(.btn-pill) { display: none; } }
+  @media (max-width: 680px) { .hdr__right a:not(.btn-pill):not(.btn-track) { display: none; } }
 
   /* ============ MEDIA PANELS ============ */
   .panel {
@@ -162,7 +174,7 @@
   .hero__stage { position: relative; flex: 1; min-height: 0; display: flex; align-items: stretch; overflow: hidden; isolation: isolate; }
   .hero__band { background: var(--paper); flex: none; }
   .hero__left {
-    width: 40%; min-width: 360px;
+    width: 45%; min-width: 360px;
     position: relative; z-index: 1; isolation: isolate;
     display: flex; flex-direction: column;
     padding: var(--pad);
@@ -180,7 +192,7 @@
             mask-repeat: no-repeat, repeat-y;
   }
   .hero .grainfield::after { display: none; }
-  .hero__right { position: absolute; inset: 0 0 0 28%; z-index: 0; isolation: isolate; overflow: hidden; }
+  .hero__right { position: absolute; inset: 0 0 0 34%; z-index: 0; isolation: isolate; overflow: hidden; }
   .hero__tint {
     position: absolute; inset: 0; z-index: -1;
     background: linear-gradient(to right, var(--blue) 0%, rgba(42, 71, 184, 0.85) 22%, rgba(42, 71, 184, 0.35) 42%, transparent 62%);
@@ -210,15 +222,15 @@
     filter: grayscale(1) contrast(1.1);
   }
   .hero__bg.on { opacity: 1; }
-  .hero__copy { flex: 1; display: flex; flex-direction: column; justify-content: flex-start; padding-top: clamp(24px, 8vh, 96px); gap: clamp(24px, 3.5vh, 36px); }
-  .hero__tags { display: grid; justify-items: start; max-width: 14ch; }
+  .hero__copy { flex: 1; display: flex; flex-direction: column; justify-content: center; padding-bottom: clamp(40px, 12vh, 140px); gap: clamp(24px, 3.5vh, 36px); }
+  .hero__tags { display: grid; justify-items: start; }
   /* Taglines share one grid cell and sit on its bottom edge, so the form always hugs the last line */
   .hero__tag {
-    grid-area: 1 / 1; align-self: end;
+    grid-area: 1 / 1; align-self: end; max-width: var(--tag-measure, 11em);
     font-family: "Inter Tight", Inter, sans-serif;
-    font-weight: 600; letter-spacing: -0.025em; line-height: 1.08;
-    font-size: clamp(36px, 4vw, 68px);
-    color: var(--white); text-wrap: pretty;
+    font-weight: 500; letter-spacing: -0.02em; line-height: 1.1;
+    font-size: clamp(30px, 3.1vw, 52px);
+    color: var(--white); text-wrap: balance;
     opacity: 0; transform: translateY(14px);
     transition: opacity 0.9s cubic-bezier(.2,.6,.2,1), transform 0.9s cubic-bezier(.2,.6,.2,1);
   }
@@ -477,16 +489,6 @@
 
   <nav class="nav" aria-label="Primary">
     <div class="nav__item">
-      <a class="nav__link" href="#">The Stord Solution <svg width="9" height="6" viewBox="0 0 9 6" fill="none"><path d="M1 1l3.5 3.5L8 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
-      <div class="nav__menu">
-        <a href="#">Fulfillment <span>DTC &amp; B2B, done for you</span></a>
-        <a href="#">DTC E-Commerce</a>
-        <a href="#">B2B Retail</a>
-        <a href="#">Last-Mile</a>
-        <a href="#">View Our Locations</a>
-      </div>
-    </div>
-    <div class="nav__item">
       <a class="nav__link" href="#">Fulfillment <svg width="9" height="6" viewBox="0 0 9 6" fill="none"><path d="M1 1l3.5 3.5L8 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
       <div class="nav__menu">
         <a href="#">AI <span>Native intelligence, everywhere</span></a>
@@ -540,7 +542,10 @@
   </nav>
 
   <div class="hdr__right">
-    <a class="nav__link" href="#">Tracking</a>
+    <a class="btn-track" href="#">
+      <svg width="12" height="15" viewBox="0 0 12 15" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M6 0C2.7 0 0 2.6 0 5.9c0 4.2 5.1 8.6 5.3 8.8.4.4 1 .4 1.4 0C6.9 14.5 12 10.1 12 5.9 12 2.6 9.3 0 6 0Zm0 8.2a2.3 2.3 0 1 1 0-4.6 2.3 2.3 0 0 1 0 4.6Z"/></svg>
+      Tracking
+    </a>
     <a class="nav__link" href="#">Login</a>
     <a class="btn-pill" href="#">Get Started</a>
   </div>
@@ -553,7 +558,8 @@
       <div class="grainfield"></div>
       <div class="hero__copy">
         <div class="hero__tags">
-          <h1 class="hero__tag on">Power your entire consumer experience.</h1>
+          <h1 class="hero__tag on">Omnichannel fulfillment and integrated software.</h1>
+          <p class="hero__tag">Power your entire consumer experience.</p>
           <p class="hero__tag">Commerce that ships itself.</p>
           <p class="hero__tag">Your brand, delivered.</p>
         </div>
@@ -567,7 +573,8 @@
       </div>
     </div>
     <div class="hero__right">
-      <div class="hero__bg on" style="background-image:url('https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=2400&q=80&fm=jpg')"></div>
+      <div class="hero__bg on" data-hold="7000" style="background-image:url('hero-warehouse-aerial.jpg')"></div>
+      <div class="hero__bg" style="background-image:url('https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=2400&q=80&fm=jpg')"></div>
       <div class="hero__bg" style="background-image:url('https://images.unsplash.com/photo-1553413077-190dd305871c?w=2400&q=80&fm=jpg')"></div>
       <div class="hero__bg" style="background-image:url('https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=2400&q=80&fm=jpg')"></div>
       <div class="hero__tint"></div>
@@ -778,7 +785,7 @@
   );
   document.querySelectorAll(".panel, .proof").forEach((el) => io.observe(el));
 
-  // Hero: rotate background + tagline together every 5s
+  // Hero: rotate background + tagline together; a slide's data-hold overrides the 5s default
   const heroBgs = [...document.querySelectorAll(".hero__bg")];
   const heroTags = [...document.querySelectorAll(".hero__tag")];
   const heroGlare = document.querySelector(".hero__glare");
@@ -789,15 +796,18 @@
   };
   if (!matchMedia("(prefers-reduced-motion: reduce)").matches && heroBgs.length > 1) {
     let hi = 0;
-    sweep();
-    setInterval(() => {
+    const hold = () => setTimeout(advance, Number(heroBgs[hi].dataset.hold) || 5000);
+    const advance = () => {
       heroBgs[hi].classList.remove("on");
       heroTags[hi].classList.remove("on");
       hi = (hi + 1) % heroBgs.length;
       heroBgs[hi].classList.add("on");
       heroTags[hi].classList.add("on");
       sweep();
-    }, 5000);
+      hold();
+    };
+    sweep();
+    hold();
   }
 
   // Duplicate marquee content for a seamless loop
