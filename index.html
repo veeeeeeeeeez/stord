@@ -236,13 +236,6 @@
     transition: opacity 0.9s cubic-bezier(.2,.6,.2,1), transform 0.9s cubic-bezier(.2,.6,.2,1);
   }
   .hero__tag.on { opacity: 1; transform: none; }
-  @media (max-width: 900px) {
-    .hero__stage { flex-direction: column; }
-    .hero__left { width: 100%; min-width: 0; min-height: 52svh; padding-top: calc(var(--pad) + 64px); padding-bottom: var(--pad); }
-    .hero__left > .grainfield { right: 0; -webkit-mask-image: none; mask-image: none; }
-    .hero__right { position: relative; inset: auto; min-height: 38svh; flex: none; }
-    .hero__tint, .hero__glare { display: none; }
-  }
   .hero__left { container-type: inline-size; }
   .hero__form {
     display: flex; align-items: center; gap: 6px;
@@ -422,7 +415,7 @@
   .marquee__track { display: flex; align-items: center; gap: clamp(56px, 6.5vw, 104px); width: max-content; animation: marquee 40s linear infinite; }
   .marquee:hover .marquee__track { animation-play-state: paused; }
   @keyframes marquee { to { transform: translateX(-50%); } }
-  .marquee__track img { display: block; width: auto; opacity: 0.8; transition: opacity 0.2s; }
+  .marquee__track img { display: block; height: var(--h); width: auto; opacity: 0.8; transition: opacity 0.2s; }
   .marquee__track img:hover { opacity: 1; }
 
   /* testimonial carousel */
@@ -474,6 +467,26 @@
   .ftr__legal p { max-width: 80ch; }
   .ftr__legal nav { display: flex; gap: 20px; }
   .ftr__legal nav a:hover { color: var(--mist); }
+
+  /* ============ PHONES & SMALL TABLETS ============ */
+  @media (max-width: 900px) {
+    /* Hero is one block of blue: no photo stacked underneath, sized to its content */
+    .hero { min-height: 0; }
+    .hero__stage { flex-direction: column; }
+    .hero .hero__left { width: 100%; min-width: 0; padding: calc(var(--pad) + 72px) var(--pad) calc(var(--pad) + 28px); }
+    .hero__left > .grainfield { right: 0; -webkit-mask-image: none; mask-image: none; }
+    .hero__right, .hero__tint, .hero__glare { display: none; }
+    .hero .hero__copy { padding-bottom: 0; }
+    .hero__logos { position: relative; padding-top: 0; background: var(--ink); }
+  }
+  @media (max-width: 700px) {
+    .panel:not(.hero) { min-height: 0; }
+    .panel:not(.hero) .panel__content { padding-top: 88px; padding-bottom: 88px; }
+    .panel:has(.panel__media) .panel__content { padding-top: 64vw; padding-bottom: 48px; }
+    .panel__scrim { background: linear-gradient(to top, rgba(14,14,18,0.92) 0%, rgba(14,14,18,0.7) 45%, rgba(14,14,18,0.25) 80%, rgba(14,14,18,0.15) 100%); }
+    .marquee__track { gap: 44px; }
+    .marquee__track img { height: calc(var(--h) * 0.68); }
+  }
 
   @media (prefers-reduced-motion: reduce) {
     .panel.is-visible .panel__media { animation: none; transform: none; }
@@ -608,15 +621,15 @@
     <div class="hero__logos">
       <div class="marquee" aria-label="Customer logos">
         <div class="marquee__track" id="marqueeTrack">
-          <img src="logos/seed-health-white.png" alt="Seed Health" style="height: 21px" />
-          <img src="logos/american-giant-white.png" alt="American Giant" style="height: 18px" />
-          <img src="logos/legion-white.png" alt="Legion" style="height: 31px" />
-          <img src="logos/earth-breeze-white.png" alt="Earth Breeze" style="height: 32px" />
-          <img src="logos/bodyarmor-white.png" alt="BODYARMOR" style="height: 21px" />
-          <img src="logos/fly-by-jing-white.png" alt="Fly By Jing" style="height: 32px" />
-          <img src="logos/goodr-white.png" alt="goodr" style="height: 32px" />
-          <img src="logos/native-white.png" alt="Native" style="height: 26px" />
-          <img src="logos/tula-white.png" alt="Tula" style="height: 29px" />
+          <img src="logos/seed-health-white.png" alt="Seed Health" style="--h: 21px" />
+          <img src="logos/american-giant-white.png" alt="American Giant" style="--h: 18px" />
+          <img src="logos/legion-white.png" alt="Legion" style="--h: 31px" />
+          <img src="logos/earth-breeze-white.png" alt="Earth Breeze" style="--h: 32px" />
+          <img src="logos/bodyarmor-white.png" alt="BODYARMOR" style="--h: 21px" />
+          <img src="logos/fly-by-jing-white.png" alt="Fly By Jing" style="--h: 32px" />
+          <img src="logos/goodr-white.png" alt="goodr" style="--h: 32px" />
+          <img src="logos/native-white.png" alt="Native" style="--h: 26px" />
+          <img src="logos/tula-white.png" alt="Tula" style="--h: 29px" />
         </div>
       </div>
     </div>
