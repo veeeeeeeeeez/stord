@@ -238,7 +238,7 @@
   .hero__tag.on { opacity: 1; transform: none; }
   @media (max-width: 900px) {
     .hero__stage { flex-direction: column; }
-    .hero__left { width: 100%; min-width: 0; min-height: 52svh; padding-bottom: var(--pad); }
+    .hero__left { width: 100%; min-width: 0; min-height: 52svh; padding-top: calc(var(--pad) + 64px); padding-bottom: var(--pad); }
     .hero__left > .grainfield { right: 0; -webkit-mask-image: none; mask-image: none; }
     .hero__right { position: relative; inset: auto; min-height: 38svh; flex: none; }
     .hero__tint, .hero__glare { display: none; }
@@ -281,10 +281,11 @@
 
   /* ============ DESIGN OPTION SWITCHER ============ */
   .optswitch {
-    position: absolute; top: 14px; left: 50%; transform: translateX(-50%); z-index: 4;
-    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    position: absolute; top: 20px; left: var(--pad); z-index: 4;
+    display: flex; flex-direction: column; align-items: flex-start; gap: 6px;
   }
   .optswitch__label {
+    padding-left: 4px;
     font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
     color: rgba(255, 255, 255, 0.85); text-shadow: 0 1px 6px rgba(14, 14, 18, 0.5);
   }
