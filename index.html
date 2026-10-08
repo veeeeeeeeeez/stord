@@ -172,12 +172,16 @@
   /* ============ HERO ============ */
   .hero { padding-top: var(--header-h); flex-direction: column; align-items: stretch; }
   .hero__stage { position: relative; flex: 1; min-height: 0; display: flex; align-items: stretch; overflow: hidden; isolation: isolate; }
-  .hero__band { background: var(--paper); flex: none; }
+  .hero__logos {
+    position: absolute; left: 0; right: 0; bottom: 0; z-index: 1;
+    padding-top: 96px;
+    background: linear-gradient(to top, rgba(14, 14, 18, 0.86) 0%, rgba(14, 14, 18, 0.55) 42%, transparent 100%);
+  }
   .hero__left {
     width: 45%; min-width: 360px;
     position: relative; z-index: 1; isolation: isolate;
     display: flex; flex-direction: column;
-    padding: var(--pad);
+    padding: var(--pad) var(--pad) calc(var(--pad) + 78px);
   }
   /* The blue overhangs the panel and breaks up into grain over the photo */
   .hero__left > .grainfield {
@@ -237,7 +241,7 @@
   .hero__tag.on { opacity: 1; transform: none; }
   @media (max-width: 900px) {
     .hero__stage { flex-direction: column; }
-    .hero__left { width: 100%; min-width: 0; min-height: 52svh; }
+    .hero__left { width: 100%; min-width: 0; min-height: 52svh; padding-bottom: var(--pad); }
     .hero__left > .grainfield { right: 0; -webkit-mask-image: none; mask-image: none; }
     .hero__right { position: relative; inset: auto; min-height: 38svh; flex: none; }
     .hero__tint, .hero__glare { display: none; }
@@ -389,21 +393,21 @@
   }
 
   /* logo marquee */
-  .marquee { overflow: hidden; border-top: 1px solid var(--mist); border-bottom: 1px solid var(--mist); padding: 26px 0; position: relative; }
-  .marquee::before, .marquee::after {
-    content: ""; position: absolute; top: 0; bottom: 0; width: 120px; z-index: 2; pointer-events: none;
+  .marquee {
+    overflow: hidden; padding: 24px 0 28px;
+    border-top: 1px solid color-mix(in srgb, var(--white) 16%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent);
+            mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent);
   }
-  .marquee::before { left: 0; background: linear-gradient(to right, var(--paper), transparent); }
-  .marquee::after { right: 0; background: linear-gradient(to left, var(--paper), transparent); }
   .marquee__track { display: flex; gap: clamp(48px, 6vw, 96px); width: max-content; animation: marquee 32s linear infinite; }
   .marquee:hover .marquee__track { animation-play-state: paused; }
   @keyframes marquee { to { transform: translateX(-50%); } }
   .marquee__track span {
-    font-size: 20px; color: var(--gray); white-space: nowrap;
+    font-size: 20px; color: color-mix(in srgb, var(--white) 74%, transparent); white-space: nowrap;
     display: inline-flex; align-items: center;
     transition: color 0.2s;
   }
-  .marquee__track span:hover { color: var(--ink); }
+  .marquee__track span:hover { color: var(--white); }
   .lw-caps { font-family: Inter, sans-serif; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; font-size: 15px !important; }
   .lw-tight { font-family: "Inter Tight", sans-serif; font-weight: 700; letter-spacing: -0.03em; }
   .lw-serif { font-family: Georgia, serif; font-weight: 600; font-style: italic; }
@@ -579,22 +583,22 @@
       <div class="hero__bg" style="background-image:url('https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=2400&q=80&fm=jpg')"></div>
       <div class="hero__tint"></div>
     </div>
-    <div class="film"></div>
-    <div class="hero__glare"></div>
-  </div>
-  <div class="hero__band">
-    <div class="marquee" aria-label="Customer logos">
-      <div class="marquee__track" id="marqueeTrack">
-        <span class="lw-tight">Peak Design</span>
-        <span class="lw-round">goodr</span>
-        <span class="lw-caps">Native</span>
-        <span class="lw-serif">Seed Health</span>
-        <span class="lw-caps">Legion Athletics</span>
-        <span class="lw-thin">Earth Breeze</span>
-        <span class="lw-serif">Fly by Jing</span>
-        <span class="lw-mono">THE ZERO PROOF</span>
+    <div class="hero__logos">
+      <div class="marquee" aria-label="Customer logos">
+        <div class="marquee__track" id="marqueeTrack">
+          <span class="lw-tight">Peak Design</span>
+          <span class="lw-round">goodr</span>
+          <span class="lw-caps">Native</span>
+          <span class="lw-serif">Seed Health</span>
+          <span class="lw-caps">Legion Athletics</span>
+          <span class="lw-thin">Earth Breeze</span>
+          <span class="lw-serif">Fly by Jing</span>
+          <span class="lw-mono">THE ZERO PROOF</span>
+        </div>
       </div>
     </div>
+    <div class="film"></div>
+    <div class="hero__glare"></div>
   </div>
 </section>
 
