@@ -43,8 +43,7 @@
     height: var(--header-h);
     display: flex; align-items: center; gap: 28px;
     padding: 0 var(--pad);
-    background: color-mix(in srgb, var(--paper) 92%, transparent);
-    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    background: var(--paper);
     border-bottom: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
     color: var(--ink);
   }
@@ -166,34 +165,45 @@
 
   /* ============ HERO ============ */
   .hero { min-height: 100svh; padding-top: var(--header-h); flex-direction: column; align-items: stretch; }
-  .hero__stage { position: relative; flex: 1; min-height: 0; display: flex; align-items: flex-end; overflow: hidden; isolation: isolate; }
+  .hero__stage { position: relative; flex: 1; min-height: 0; display: flex; align-items: stretch; overflow: hidden; isolation: isolate; }
   .hero__band { background: var(--paper); flex: none; }
   .hero .panel__content { padding-bottom: clamp(44px, 8vh, 96px); }
+  .hero__left {
+    width: 30%; min-width: 330px;
+    position: relative; isolation: isolate;
+    display: flex; flex-direction: column;
+    padding: var(--pad);
+  }
+  .hero__right { flex: 1; position: relative; isolation: isolate; overflow: hidden; }
   .hero__bg {
     position: absolute; inset: 0; z-index: -2; opacity: 0; transition: opacity 1.4s ease;
     background-size: cover; background-position: center;
-    filter: saturate(0.55) contrast(1.06) brightness(0.82);
+    filter: saturate(0.6) contrast(1.05);
   }
   .hero__bg.on { opacity: 1; }
-  .hero__scrim {
-    position: absolute; inset: 0; z-index: -1;
-    background:
-      radial-gradient(70% 55% at 50% 58%, rgba(14,14,18,0.42) 0%, transparent 75%),
-      linear-gradient(to top, rgba(14,14,18,0.7) 0%, rgba(14,14,18,0.28) 40%, rgba(14,14,18,0.38) 100%);
+  .hero__grain {
+    position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 240px 240px;
+    mix-blend-mode: overlay; opacity: 0.65;
   }
-  .hero__stage { align-items: center; }
-  .hero .panel__content { justify-items: center; text-align: center; padding-bottom: var(--pad); }
-  .hero__tags { display: grid; justify-items: center; max-width: 24ch; margin: 0 auto; }
+  .hero__tagwrap { flex: 1; display: flex; align-items: center; }
+  .hero__tags { display: grid; justify-items: start; }
   .hero__tag {
     grid-area: 1 / 1;
     font-family: "Inter Tight", Inter, sans-serif;
-    font-weight: 600; letter-spacing: -0.025em; line-height: 1.1;
-    font-size: clamp(30px, 3.8vw, 58px);
+    font-weight: 600; letter-spacing: -0.025em; line-height: 1.08;
+    font-size: clamp(36px, 3.6vw, 62px);
     color: var(--white); text-wrap: balance;
     opacity: 0; transform: translateY(14px);
     transition: opacity 0.9s cubic-bezier(.2,.6,.2,1), transform 0.9s cubic-bezier(.2,.6,.2,1);
   }
   .hero__tag.on { opacity: 1; transform: none; }
+  @media (max-width: 900px) {
+    .hero__stage { flex-direction: column; }
+    .hero__left { width: 100%; min-width: 0; min-height: 52svh; }
+    .hero__right { width: 100%; min-height: 38svh; flex: none; }
+  }
   .btn-hero {
     display: inline-flex; align-items: center; gap: 11px; width: fit-content;
     background: var(--white); color: var(--ink);
@@ -488,21 +498,26 @@
 <!-- ======================= HERO ======================= -->
 <section class="panel hero" id="top">
   <div class="hero__stage">
-    <div class="hero__bg on" style="background-image:url('https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=2400&q=80&fm=jpg')"></div>
-    <div class="hero__bg" style="background-image:url('https://images.unsplash.com/photo-1553413077-190dd305871c?w=2400&q=80&fm=jpg')"></div>
-    <div class="hero__bg" style="background-image:url('https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=2400&q=80&fm=jpg')"></div>
-    <div class="hero__scrim"></div>
-    <div class="panel__content">
-      <div class="hero__tags">
-        <h1 class="hero__tag on">Power your entire consumer experience.</h1>
-        <p class="hero__tag">Commerce that ships itself.</p>
-        <p class="hero__tag">Your brand, delivered.</p>
+    <div class="hero__left">
+      <div class="grainfield"></div>
+      <div class="hero__tagwrap">
+        <div class="hero__tags">
+          <h1 class="hero__tag on">Power your entire consumer experience.</h1>
+          <p class="hero__tag">Commerce that ships itself.</p>
+          <p class="hero__tag">Your brand, delivered.</p>
+        </div>
       </div>
       <a class="btn-hero" href="#">Get Started
         <svg width="17" height="13" viewBox="0 0 17 13" fill="none"><path d="M1 6.5h14M11 1.5l4.5 5-4.5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
     </div>
-    <div class="scrollcue">Scroll</div>
+    <div class="hero__right">
+      <div class="hero__bg on" style="background-image:url('https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=2400&q=80&fm=jpg')"></div>
+      <div class="hero__bg" style="background-image:url('https://images.unsplash.com/photo-1553413077-190dd305871c?w=2400&q=80&fm=jpg')"></div>
+      <div class="hero__bg" style="background-image:url('https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=2400&q=80&fm=jpg')"></div>
+      <div class="hero__grain"></div>
+      <div class="scrollcue">Scroll</div>
+    </div>
   </div>
   <div class="hero__band">
     <div class="marquee" aria-label="Customer logos">
