@@ -304,20 +304,20 @@
   .optswitch button:hover { color: var(--white); }
   .optswitch button[aria-pressed="true"] { background: var(--white); color: var(--ink); }
 
-  /* Option 2: the hero is an inset rounded box on the header's paper color */
+  /* Option 1: the hero is an inset rounded box on the header's paper color */
   .hero__stage { transition: margin 0.5s cubic-bezier(.3,.7,.2,1), border-radius 0.5s cubic-bezier(.3,.7,.2,1); }
-  [data-option="2"] .hero { background: var(--paper); }
-  [data-option="2"] .hdr { border-bottom-color: transparent; }
-  [data-option="2"] .hero__stage {
+  [data-option="1"] .hero { background: var(--paper); }
+  [data-option="1"] .hdr { border-bottom-color: transparent; }
+  [data-option="1"] .hero__stage {
     margin: 0 clamp(14px, 1.5vw, 24px);
     border-radius: 20px;
   }
   /* ...and the logo strip sits below the box: black on paper, full page width */
-  [data-option="2"] .hero__left { padding-bottom: var(--pad); }
-  [data-option="2"] .hero__logos { position: static; flex: none; padding-top: 0; background: none; }
-  [data-option="2"] .marquee { border-top: 0; padding: clamp(20px, 2.4vw, 32px) 0; }
-  [data-option="2"] .marquee__track img { filter: brightness(0); opacity: 0.72; }
-  [data-option="2"] .marquee__track img:hover { opacity: 1; }
+  [data-option="1"] .hero__left { padding-bottom: var(--pad); }
+  [data-option="1"] .hero__logos { position: static; flex: none; padding-top: 0; background: none; }
+  [data-option="1"] .marquee { border-top: 0; padding: clamp(20px, 2.4vw, 32px) 0; }
+  [data-option="1"] .marquee__track img { filter: brightness(0); opacity: 0.72; }
+  [data-option="1"] .marquee__track img:hover { opacity: 1; }
 
   /* ============ FILM GRAIN (black-and-white photos) ============ */
   .film {
@@ -824,8 +824,8 @@
   const heroFilm = heroStage.querySelector(".film");
   const setOption = (n) => {
     document.documentElement.dataset.option = n;
-    // Option 2 shows the logos below the hero box instead of inside it
-    if (n === "2") heroStage.after(heroLogos);
+    // Option 1 shows the logos below the hero box instead of inside it
+    if (n === "1") heroStage.after(heroLogos);
     else heroStage.insertBefore(heroLogos, heroFilm);
     optButtons.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.opt === n)));
     const url = new URL(location.href);
