@@ -21,6 +21,8 @@
     --white: #ffffff;
     --header-h: 56px;
     --pad: clamp(20px, 4vw, 56px);
+    --dissolve: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='340' height='340'%3E%3Cdefs%3E%3ClinearGradient id='g'%3E%3Cstop offset='0' stop-color='%23fff'/%3E%3Cstop offset='1' stop-color='%23000'/%3E%3C/linearGradient%3E%3Cfilter id='f' x='0' y='0' width='1' height='1' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='2' stitchTiles='stitch' result='n'/%3E%3CfeColorMatrix in='n' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0' result='na'/%3E%3CfeColorMatrix in='SourceGraphic' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0' result='ga'/%3E%3CfeComposite in='ga' in2='na' operator='arithmetic' k2='1.6' k3='2' k4='-1.3'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='8' intercept='-3.5'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3C/defs%3E%3Crect width='340' height='340' fill='url(%23g)' filter='url(%23f)'/%3E%3C/svg%3E");
+    --noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -47,12 +49,8 @@
     border-bottom: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
     color: var(--ink);
   }
-  .hdr__logo { display: flex; align-items: center; gap: 9px; flex: none; }
-  .hdr__logo svg { display: block; }
-  .hdr__wordmark {
-    font-family: "Inter Tight", Inter, sans-serif;
-    font-weight: 700; font-size: 19px; letter-spacing: -0.02em; color: var(--ink);
-  }
+  .hdr__logo { display: flex; align-items: center; flex: none; }
+  .hdr__logo img { display: block; height: 24px; width: auto; }
   .nav { display: flex; align-items: center; gap: 2px; margin-left: 4px; }
   .nav__item { position: relative; }
   .nav__link {
@@ -108,7 +106,7 @@
   .panel__media {
     position: absolute; inset: 0; z-index: -2;
     background-size: cover; background-position: center;
-    filter: saturate(0.55) contrast(1.06) brightness(0.9);
+    filter: grayscale(1) contrast(1.1);
     transform: scale(1.08);
   }
   .panel.is-visible .panel__media { animation: kenburns 14s ease-out forwards; }
@@ -141,10 +139,6 @@
     text-wrap: balance;
   }
   .display .accent { color: color-mix(in srgb, var(--blue) 72%, var(--white)); }
-  .sub {
-    font-size: clamp(15px, 1.3vw, 18px); font-weight: 400; line-height: 1.55;
-    color: var(--mist); max-width: 52ch;
-  }
   .explore {
     display: inline-flex; align-items: center; gap: 10px;
     font-size: 14px; font-weight: 600; letter-spacing: 0.04em;
@@ -164,37 +158,66 @@
   .is-visible .reveal { opacity: 1; transform: none; }
 
   /* ============ HERO ============ */
-  .hero { min-height: 100svh; padding-top: var(--header-h); flex-direction: column; align-items: stretch; }
+  .hero { padding-top: var(--header-h); flex-direction: column; align-items: stretch; }
   .hero__stage { position: relative; flex: 1; min-height: 0; display: flex; align-items: stretch; overflow: hidden; isolation: isolate; }
   .hero__band { background: var(--paper); flex: none; }
-  .hero .panel__content { padding-bottom: clamp(44px, 8vh, 96px); }
   .hero__left {
-    width: 30%; min-width: 330px;
-    position: relative; isolation: isolate;
+    width: 40%; min-width: 360px;
+    position: relative; z-index: 1; isolation: isolate;
     display: flex; flex-direction: column;
     padding: var(--pad);
   }
-  .hero__right { flex: 1; position: relative; isolation: isolate; overflow: hidden; }
+  /* The blue overhangs the panel and breaks up into grain over the photo */
+  .hero__left > .grainfield {
+    right: -260px;
+    -webkit-mask-image: linear-gradient(#000, #000), var(--dissolve);
+            mask-image: linear-gradient(#000, #000), var(--dissolve);
+    -webkit-mask-size: calc(100% - 300px) 100%, 340px 340px;
+            mask-size: calc(100% - 300px) 100%, 340px 340px;
+    -webkit-mask-position: 0 0, 100% 0;
+            mask-position: 0 0, 100% 0;
+    -webkit-mask-repeat: no-repeat, repeat-y;
+            mask-repeat: no-repeat, repeat-y;
+  }
+  .hero .grainfield::after { display: none; }
+  .hero__right { position: absolute; inset: 0 0 0 28%; z-index: 0; isolation: isolate; overflow: hidden; }
+  .hero__tint {
+    position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(to right, var(--blue) 0%, rgba(42, 71, 184, 0.85) 22%, rgba(42, 71, 184, 0.35) 42%, transparent 62%);
+    mix-blend-mode: color;
+  }
+  .hero__stage > .film { z-index: 2; }
+  .hero__glare {
+    position: absolute; inset: 0; z-index: 3; pointer-events: none;
+    mix-blend-mode: screen;
+    background:
+      radial-gradient(20% 44% at 50% 34%, rgba(150, 175, 255, 0.45), transparent 70%),
+      radial-gradient(22% 1.4% at 55% 34%, rgba(215, 225, 255, 0.45), transparent 80%),
+      radial-gradient(55% 50% at 100% 0%, rgba(255, 255, 255, 0.16), transparent 70%);
+    animation: leak 8s ease-in-out infinite alternate;
+  }
+  @keyframes leak { from { opacity: 0.7; } to { opacity: 1; } }
+  .hero__glare::after {
+    content: ""; position: absolute; inset: 0; opacity: 0;
+    background: linear-gradient(100deg, transparent 38%, rgba(255, 255, 255, 0.2) 48%, rgba(180, 198, 255, 0.12) 53%, transparent 63%) no-repeat;
+    background-size: 300% 100%;
+  }
+  .hero__glare.sweep::after { animation: sweep 1.9s cubic-bezier(.3,.6,.2,1); }
+  @keyframes sweep { from { opacity: 1; background-position: 100% 0; } to { opacity: 1; background-position: 0% 0; } }
   .hero__bg {
     position: absolute; inset: 0; z-index: -2; opacity: 0; transition: opacity 1.4s ease;
     background-size: cover; background-position: center;
-    filter: saturate(0.6) contrast(1.05);
+    filter: grayscale(1) contrast(1.1);
   }
   .hero__bg.on { opacity: 1; }
-  .hero__grain {
-    position: absolute; inset: 0; z-index: -1; pointer-events: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
-    background-size: 240px 240px;
-    mix-blend-mode: overlay; opacity: 0.65;
-  }
   .hero__tagwrap { flex: 1; display: flex; align-items: center; }
-  .hero__tags { display: grid; justify-items: start; }
+  .hero__tags { display: grid; justify-items: start; max-width: 14ch; }
   .hero__tag {
     grid-area: 1 / 1;
     font-family: "Inter Tight", Inter, sans-serif;
     font-weight: 600; letter-spacing: -0.025em; line-height: 1.08;
-    font-size: clamp(36px, 3.6vw, 62px);
-    color: var(--white); text-wrap: balance;
+    font-size: clamp(36px, 4vw, 68px);
+    color: var(--white); text-wrap: pretty;
     opacity: 0; transform: translateY(14px);
     transition: opacity 0.9s cubic-bezier(.2,.6,.2,1), transform 0.9s cubic-bezier(.2,.6,.2,1);
   }
@@ -202,7 +225,9 @@
   @media (max-width: 900px) {
     .hero__stage { flex-direction: column; }
     .hero__left { width: 100%; min-width: 0; min-height: 52svh; }
-    .hero__right { width: 100%; min-height: 38svh; flex: none; }
+    .hero__left > .grainfield { right: 0; -webkit-mask-image: none; mask-image: none; }
+    .hero__right { position: relative; inset: auto; min-height: 38svh; flex: none; }
+    .hero__tint, .hero__glare { display: none; }
   }
   .btn-hero {
     display: inline-flex; align-items: center; gap: 11px; width: fit-content;
@@ -217,19 +242,21 @@
   .btn-hero:hover { transform: translateY(-2px); box-shadow: 0 18px 44px rgba(8, 10, 26, 0.4); }
   .btn-hero svg { transition: transform 0.2s; }
   .btn-hero:hover svg { transform: translateX(3px); }
-  .scrollcue {
-    position: absolute; right: var(--pad); bottom: clamp(44px, 8vh, 96px);
-    display: flex; flex-direction: column; align-items: center; gap: 10px;
-    font-size: 11px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--stone);
-    writing-mode: vertical-rl;
+
+  /* ============ FILM GRAIN (black-and-white photos) ============ */
+  .film {
+    position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background-image: var(--noise); background-size: 200px 200px;
+    mix-blend-mode: overlay; opacity: 0.7;
+    animation: grain 0.8s steps(1) infinite;
   }
-  .scrollcue::after {
-    content: ""; width: 1px; height: 54px;
-    background: linear-gradient(to bottom, var(--stone), transparent);
-    animation: cue 2.2s ease-in-out infinite;
+  @keyframes grain {
+    0%   { background-position: 0 0; }
+    20%  { background-position: -47px 31px; }
+    40%  { background-position: 83px -59px; }
+    60%  { background-position: -112px -24px; }
+    80%  { background-position: 36px 97px; }
   }
-  @keyframes cue { 0%, 100% { transform: scaleY(0.5); transform-origin: top; opacity: 0.4; } 50% { transform: scaleY(1); opacity: 1; } }
-  @media (max-width: 860px) { .scrollcue { display: none; } }
 
   /* ============ GRAIN (blue annual-report treatment) ============ */
   .grainfield {
@@ -241,7 +268,7 @@
   }
   .grainfield::after {
     content: ""; position: absolute; inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-image: var(--noise);
     background-size: 240px 240px;
     mix-blend-mode: overlay; opacity: 0.9;
   }
@@ -392,7 +419,7 @@
     border-bottom: 1px solid color-mix(in srgb, var(--white) 10%, transparent);
   }
   @media (max-width: 960px) { .ftr__grid { grid-template-columns: 1fr 1fr; } }
-  .ftr__brand .hdr__wordmark { color: var(--paper); }
+  .ftr__brand .hdr__logo img { height: 26px; }
   .ftr__brand p { font-size: 13px; line-height: 1.6; color: var(--gray); margin-top: 14px; max-width: 30ch; }
   .ftr__brand .contact { margin-top: 18px; font-size: 13px; }
   .ftr__brand .contact a { display: block; color: var(--mist); padding: 2px 0; }
@@ -410,6 +437,7 @@
 
   @media (prefers-reduced-motion: reduce) {
     .panel.is-visible .panel__media { animation: none; transform: none; }
+    .film, .hero__glare, .hero__glare.sweep::after { animation: none; }
     .marquee__track { animation-duration: 120s; }
     .reveal { transition: none; opacity: 1; transform: none; }
     html { scroll-behavior: auto; }
@@ -421,7 +449,7 @@
 <!-- ======================= HEADER (compact) ======================= -->
 <header class="hdr">
   <a class="hdr__logo" href="#" aria-label="Stord home">
-    <img src="stord-logo-dark.png" alt="Stord" style="height: 24px; width: auto; display: block;" />
+    <img src="stord-logo-dark.png" alt="Stord" />
   </a>
 
   <nav class="nav" aria-label="Primary">
@@ -515,9 +543,10 @@
       <div class="hero__bg on" style="background-image:url('https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=2400&q=80&fm=jpg')"></div>
       <div class="hero__bg" style="background-image:url('https://images.unsplash.com/photo-1553413077-190dd305871c?w=2400&q=80&fm=jpg')"></div>
       <div class="hero__bg" style="background-image:url('https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=2400&q=80&fm=jpg')"></div>
-      <div class="hero__grain"></div>
-      <div class="scrollcue">Scroll</div>
+      <div class="hero__tint"></div>
     </div>
+    <div class="film"></div>
+    <div class="hero__glare"></div>
   </div>
   <div class="hero__band">
     <div class="marquee" aria-label="Customer logos">
@@ -539,6 +568,7 @@
 <section class="panel">
   <div class="panel__media" style="background-image:url('https://images.unsplash.com/photo-1553413077-190dd305871c?w=2400&q=80&fm=jpg')"></div>
   <div class="panel__scrim"></div>
+  <div class="film"></div>
   <div class="panel__content">
     <p class="kicker reveal"><em>01</em> Fulfillment</p>
     <h2 class="display reveal">Every order.<br />Every channel.</h2>
@@ -572,6 +602,7 @@
 <section class="panel">
   <div class="panel__media" style="background-image:url('https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=2400&q=80&fm=jpg')"></div>
   <div class="panel__scrim"></div>
+  <div class="film"></div>
   <div class="panel__content">
     <p class="kicker reveal"><em>03</em> Network</p>
     <h2 class="display reveal">Port to porch, <span class="accent">connected</span></h2>
@@ -653,7 +684,7 @@
   <div class="ftr__grid">
     <div class="ftr__brand">
       <a class="hdr__logo" href="#top" aria-label="Stord home">
-        <img src="stord-logo-light.png" alt="Stord" style="height: 26px; width: auto; display: block;" />
+        <img src="stord-logo-light.png" alt="Stord" />
       </a>
       <p>Cloud supply chain for high-growth consumer brands. Fulfillment, software, and last-mile on one network.</p>
       <div class="contact">
@@ -723,14 +754,22 @@
   // Hero: rotate background + tagline together every 5s
   const heroBgs = [...document.querySelectorAll(".hero__bg")];
   const heroTags = [...document.querySelectorAll(".hero__tag")];
+  const heroGlare = document.querySelector(".hero__glare");
+  const sweep = () => {
+    heroGlare.classList.remove("sweep");
+    void heroGlare.offsetWidth;
+    heroGlare.classList.add("sweep");
+  };
   if (!matchMedia("(prefers-reduced-motion: reduce)").matches && heroBgs.length > 1) {
     let hi = 0;
+    sweep();
     setInterval(() => {
       heroBgs[hi].classList.remove("on");
       heroTags[hi].classList.remove("on");
       hi = (hi + 1) % heroBgs.length;
       heroBgs[hi].classList.add("on");
       heroTags[hi].classList.add("on");
+      sweep();
     }, 5000);
   }
 
